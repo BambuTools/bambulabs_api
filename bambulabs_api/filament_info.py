@@ -26,8 +26,37 @@ class AMSFilamentSettings:
     nozzle_temp_max: int
     tray_type: str
 
+class Filament(AMSFilamentSettings):
+    """Changes the behavior of the Filament library class to allow unknown/new filaments (tray_info_idx codes) to be set. 
+    Does not validate manually-set the filament codes against a known list, but printer should just safely/silently ignore it if it's not real"""
 
-class Filament(AMSFilamentSettings, Enum):
+    def __init__(self, filament: str | AMSFilamentSettings):
+        
+        # Support existing lookup by standard filament names known to the library
+        if type(filament) is str:
+            name = filament 
+            print(name)
+            
+            # This will throw an exception if the name can't be mapped to a known setting, just like before
+            knownF = FilamentEnum(name)
+            
+            super(Filament, self).__init__(
+                knownF.tray_info_idx,
+                int(knownF.nozzle_temp_min),
+                int(knownF.nozzle_temp_max),
+                knownF.tray_type,
+                )
+        
+        # Support creating your own arbitrary AMSFilamentSettings so newer/custom codes can be used
+        else:
+            super(Filament, self).__init__(
+                filament.tray_info_idx,
+                int(filament.nozzle_temp_min),
+                int(filament.nozzle_temp_max),
+                filament.tray_type,
+                )
+
+class FilamentEnum(AMSFilamentSettings, Enum):
     """
     Enum class for the filament settings
 
