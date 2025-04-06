@@ -1,6 +1,8 @@
 __all__ = [
     "NozzleType",
+    "PrinterType",
     "P1FirmwareVersion",
+    "PrinterFirmwareInfo"
 ]
 
 from dataclasses import dataclass
@@ -29,6 +31,7 @@ class PrinterType(str, Enum):
     """
     P1S = "P1S"
     P1P = "P1P"
+    H2D = "H2D"
     A1 = "A1"
     A1_MINI = "A1_MINI"
     X1C = "X1C"

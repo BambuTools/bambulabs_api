@@ -11,6 +11,7 @@ from .filament_info import Filament, AMSFilamentSettings, FilamentTray  # noqa
 from .states_info import PrintStatus, GcodeState  # noqa
 from .mqtt_client import *  # noqa
 from .ams import *  # noqa
+from printer_info import *  # noqa
 
 
 __all__ = []

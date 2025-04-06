@@ -25,10 +25,42 @@ from .states_info import GcodeState, PrintStatus
 def set_temperature_support(printer_info: PrinterFirmwareInfo):
     printer_type = printer_info.printer_type
     if printer_type in (PrinterType.P1P, PrinterType.P1S,
-                        PrinterType.X1E, PrinterType.X1C, ):
+                        PrinterType.X1E, PrinterType.X1C,
+                        PrinterType.H2D):
         return printer_info.firmware_version < "01.06"
     elif printer_type in (PrinterType.A1, PrinterType.A1_MINI):
         return printer_info.firmware_version <= "01.04"
+
+
+def create_local_ssl_context():
+    """
+    This context validates the certificate for TLS connections
+    to local printers.
+    It additionally requires calling `context.wrap_socket(sock,
+                                                          servername=printer_serial_number)`
+    for the Server Name Indication (SNI).
+    """
+    context = ssl.create_default_context(cafile="ca_cert.pem")
+    context.verify_flags &= ~ssl.VERIFY_X509_STRICT
+    return context
+
+
+def is_tls_supported(printer_info: PrinterFirmwareInfo):
+    """
+    Check if the printer supports TLS connections.
+
+    Args:
+        printer_info (PrinterFirmwareInfo): The printer firmware information.
+
+    Returns:
+        bool: True if TLS is supported, False otherwise.
+    """
+    printer_type = printer_info.printer_type
+    if printer_type in (PrinterType.P1P, PrinterType.P1S,
+                        PrinterType.X1E, PrinterType.X1C, ):
+        return printer_info.firmware_version > "01.07"
+    elif printer_type in (PrinterType.A1, PrinterType.A1_MINI):
+        return printer_info.firmware_version > "01.04"
 
 
 def is_valid_gcode(line: str):
@@ -73,7 +105,13 @@ class PrinterMQTTClient:
             pushall_timeout: int = 60,
             pushall_on_connect: bool = True,
             strict: bool = False,
+            printer_info: PrinterFirmwareInfo = PrinterFirmwareInfo(
+                PrinterType.P1S,
+                "01.04.00.00",
+            ),
     ):
+        self.printer_info: PrinterFirmwareInfo = printer_info
+
         self._hostname = hostname
         self._access = access
         self._username = username
@@ -87,11 +125,15 @@ class PrinterMQTTClient:
             protocol=mqtt.MQTTv311,
         )
         self._client.username_pw_set(username, access)
-        self._client.tls_set(  # type: ignore
-            tls_version=ssl.PROTOCOL_TLS,
-            cert_reqs=ssl.CERT_NONE
-        )
-        self._client.tls_insecure_set(True)
+
+        if not is_tls_supported(printer_info):
+            self._client.tls_set(  # type: ignore
+                tls_version=ssl.PROTOCOL_TLS,
+                cert_reqs=ssl.CERT_NONE
+            )
+            self._client.tls_insecure_set(True)
+        else:
+            self._client.tls_set_context(create_local_ssl_context())
 
         self._client.on_connect = self._on_connect
         self._client.on_message = self._on_message
@@ -130,11 +172,6 @@ class PrinterMQTTClient:
 
         self.ams_hub: AMSHub = AMSHub()
         self.strict = strict
-
-        self.printer_info: PrinterFirmwareInfo = PrinterFirmwareInfo(
-            PrinterType.P1S,
-            "01.04.00.00"
-        )
 
     def is_connected(self):
         """
