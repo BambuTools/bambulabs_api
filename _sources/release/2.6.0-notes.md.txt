@@ -1,5 +1,5 @@
-Bambulabs API 2.5.13 Release Notes
-==================================
+Bambulabs API 2.6.0 Release Notes
+=================================
 
 * Apis for printer getting current and historical firmware info
 * Apis for downgrading + upgrading the firmware
