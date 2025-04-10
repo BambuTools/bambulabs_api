@@ -1,0 +1,5 @@
+Bambulabs API 2.6.1 Release Notes
+=================================
+
+* Client api for getting layer nums
+* Enhanced subscription example [@albfan](https://github.com/albfan)

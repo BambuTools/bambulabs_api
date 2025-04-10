@@ -7,6 +7,7 @@ Release notes for each release here:
 .. toctree::
   :maxdepth: 1
 
+  2.6.1 <release/2.6.1-notes.rst>
   2.6.0 <release/2.6.0-notes.rst>
   2.5.12 <release/2.5.12-notes.rst>
   2.5.10 <release/2.5.10-notes.rst>
