@@ -1,0 +1,10 @@
+================
+A1 Compatibility
+================
+
+.. csv-table:: A1 Compatibility
+   :file: A1.csv
+   :widths: 30, 50, 50
+   :header-rows: 1
+
+.. ❌✅
