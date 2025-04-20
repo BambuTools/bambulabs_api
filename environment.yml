@@ -14,3 +14,4 @@ dependencies:
   - pip:
     - paho_mqtt
     - pillow
+    - opencv-python
