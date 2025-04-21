@@ -46,6 +46,7 @@
 <li class="toctree-l1"><a class="reference internal" href="index.html">BambuLabs API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#basic">Basic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-no-camera">Basic No Camera</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#basic-subscription">Basic Subscription</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#get-a-camera-frame">Get a Camera Frame</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#start-a-print">Start a Print</a></li>
@@ -121,6 +122,50 @@ Make sure that ports 8883, 6000 and 990 are accessible from your machine.</p>
 
     <span class="c1"># Disconnect from the Bambulabs 3D printer</span>
     <span class="n">printer</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="basic-no-camera">
+<h2>Basic No Camera<a class="headerlink" href="#basic-no-camera" title="Link to this heading"></a></h2>
+<p>If using the api without camera connection follow the below example.
+Note that camera on X1 machines is not supported on the API for versions less
+than 2.7.0</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bambulabs_api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bl</span>
+
+<span class="n">IP</span> <span class="o">=</span> <span class="s1">&#39;192.168.1.200&#39;</span>
+<span class="n">SERIAL</span> <span class="o">=</span> <span class="s1">&#39;AC12309BH109&#39;</span>
+<span class="n">ACCESS_CODE</span> <span class="o">=</span> <span class="s1">&#39;12347890&#39;</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Starting bambulabs_api example&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Connecting to Bambulabs 3D printer&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;IP: </span><span class="si">{</span><span class="n">IP</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Serial: </span><span class="si">{</span><span class="n">SERIAL</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Access Code: </span><span class="si">{</span><span class="n">ACCESS_CODE</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Create a new instance of the API</span>
+    <span class="n">printer</span> <span class="o">=</span> <span class="n">bl</span><span class="o">.</span><span class="n">Printer</span><span class="p">(</span><span class="n">IP</span><span class="p">,</span> <span class="n">ACCESS_CODE</span><span class="p">,</span> <span class="n">SERIAL</span><span class="p">)</span>
+
+    <span class="c1"># Connect to the Bambulabs 3D printer without connecting to the camera</span>
+    <span class="n">printer</span><span class="o">.</span><span class="n">mqtt_start</span><span class="p">()</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Get the printer status</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Printer status: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Turn the light off</span>
+    <span class="n">printer</span><span class="o">.</span><span class="n">turn_light_off</span><span class="p">()</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Turn the light on</span>
+    <span class="n">printer</span><span class="o">.</span><span class="n">turn_light_on</span><span class="p">()</span>
+
+    <span class="c1"># Disconnect the mqtt client</span>
+    <span class="n">printer</span><span class="o">.</span><span class="n">mqtt_stop</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>

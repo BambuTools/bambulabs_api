@@ -10,6 +10,17 @@ Make sure that ports 8883, 6000 and 990 are accessible from your machine.
 .. literalinclude:: ../examples/Basic/basic.py
   :language: python
 
+Basic No Camera
+---------------
+
+If using the api without camera connection follow the below example.
+Note that camera on X1 machines is not supported on the API for versions less
+than 2.7.0
+
+.. literalinclude:: ../examples/Basic/basic_no_camera.py
+  :language: python
+
+
 Basic Subscription
 ------------------
 
