@@ -62,6 +62,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.get_bed_temperature"><code class="docutils literal notranslate"><span class="pre">get_bed_temperature()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.get_camera_frame"><code class="docutils literal notranslate"><span class="pre">get_camera_frame()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.get_camera_image"><code class="docutils literal notranslate"><span class="pre">get_camera_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.get_chamber_temperature"><code class="docutils literal notranslate"><span class="pre">get_chamber_temperature()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.get_current_state"><code class="docutils literal notranslate"><span class="pre">get_current_state()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.get_file_name"><code class="docutils literal notranslate"><span class="pre">get_file_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.get_light_state"><code class="docutils literal notranslate"><span class="pre">get_light_state()</span></code></a></li>
@@ -103,6 +104,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.unload_filament_spool"><code class="docutils literal notranslate"><span class="pre">unload_filament_spool()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.upload_file"><code class="docutils literal notranslate"><span class="pre">upload_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.vt_tray"><code class="docutils literal notranslate"><span class="pre">vt_tray()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.wifi_signal"><code class="docutils literal notranslate"><span class="pre">wifi_signal()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mqtt_client.html">MQTT Client</a></li>
@@ -336,6 +338,21 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.get_chamber_temperature">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">get_chamber_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.get_chamber_temperature" title="Link to this definition"></a></dt>
+<dd><p>Get the chamber temperature of the printer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>float</em> – The chamber temperature of the printer.</p></li>
+<li><p><em>None if the printer is not printing.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.Printer.get_current_state">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">get_current_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">PrintStatus</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.get_current_state" title="Link to this definition"></a></dt>
 <dd><p>Get the current state of the printer.</p>
@@ -438,14 +455,14 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.Printer.get_state">
-<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.get_state" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GcodeState</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.get_state" title="Link to this definition"></a></dt>
 <dd><p>Get the state of the printer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The state of the printer.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+<dd class="field-even"><p>GcodeState</p>
 </dd>
 </dl>
 </dd></dl>
@@ -961,6 +978,20 @@ by default [0].</p></li>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Filament</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.wifi_signal">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">wifi_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.wifi_signal" title="Link to this definition"></a></dt>
+<dd><p>Get Wifi signal in dBm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wifi signal</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>

@@ -63,6 +63,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_bed_temperature"><code class="docutils literal notranslate"><span class="pre">get_bed_temperature()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_bed_temperature_target"><code class="docutils literal notranslate"><span class="pre">get_bed_temperature_target()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_chamber_fan_speed"><code class="docutils literal notranslate"><span class="pre">get_chamber_fan_speed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_chamber_temperature"><code class="docutils literal notranslate"><span class="pre">get_chamber_temperature()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_current_state"><code class="docutils literal notranslate"><span class="pre">get_current_state()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_fan_gear"><code class="docutils literal notranslate"><span class="pre">get_fan_gear()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_file_name"><code class="docutils literal notranslate"><span class="pre">get_file_name()</span></code></a></li>
@@ -117,6 +118,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.unload_filament_spool"><code class="docutils literal notranslate"><span class="pre">unload_filament_spool()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.upgrade_firmware"><code class="docutils literal notranslate"><span class="pre">upgrade_firmware()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.vt_tray"><code class="docutils literal notranslate"><span class="pre">vt_tray()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.wifi_signal"><code class="docutils literal notranslate"><span class="pre">wifi_signal()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="filament.html">Filament</a></li>
@@ -350,6 +352,20 @@ Firmware version must be in the version history.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_chamber_temperature">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_chamber_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_chamber_temperature" title="Link to this definition"></a></dt>
+<dd><p>Get the chamber temperature</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>chamber temperature</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_current_state">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_current_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">PrintStatus</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_current_state" title="Link to this definition"></a></dt>
 <dd><p>Get the current printer state from stg_cur</p>
@@ -498,7 +514,7 @@ Firmware version must be in the version history.</p>
 <dd class="field-odd"><p>printer state</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>PrintStatus</p>
+<dd class="field-even"><p>GcodeState</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1157,6 +1173,20 @@ override is not provided.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>FilamentTray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.wifi_signal">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">wifi_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.wifi_signal" title="Link to this definition"></a></dt>
+<dd><p>Get Wifi signal in dBm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wifi signal</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
