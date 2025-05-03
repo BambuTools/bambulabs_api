@@ -1,0 +1,7 @@
+Bambulabs API 2.6.2 Release Notes
+=================================
+
+* FTP Api for getting info directory, downloading items and retrieve images.
+* Fix get nozzle diameter.
+* Custom Filament Settings [@Aptimex](https://github.com/Aptimex)
+* Update mqtt client: wifi status, chamber temperature [@BuSHari](https://github.com/BuSHari)
