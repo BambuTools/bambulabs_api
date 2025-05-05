@@ -1036,7 +1036,24 @@ class PrinterMQTTClient:
         Returns:
             float: chamber temperature
         """
-        return float(self.__get_print("chamber_temper", 0.0))
+        primary = self.__get_print("chamber_temper", None)
+        try:
+            return float(primary)
+        except (TypeError, ValueError):
+            pass  # fall back
+
+        device = self.__get_print("device", {})
+        if isinstance(device, dict):
+            ctc = device.get("ctc", {})
+            if isinstance(ctc, dict):
+                info = ctc.get("info", {})
+                if isinstance(info, dict):
+                    try:
+                        return float(info.get("temp", 0.0))
+                    except (TypeError, ValueError):
+                        pass
+
+        return 0.0
 
     def current_layer_num(self) -> int:
         """
