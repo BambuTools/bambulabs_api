@@ -818,14 +818,14 @@ class PrinterMQTTClient:
 
     def set_auto_step_recovery(self, auto_step_recovery: bool = True) -> bool:
         """
-        Set whether or not to set auto step recovery
+        Set whether to set auto step recovery or not.
 
         Args:
             auto_step_recovery (bool): flag to set auto step recovery.
                 Default True.
 
         Returns:
-            bool: success of the auto step recovery command command
+            bool: success of the auto step recovery command
         """
         return self.__publish_command({"print": {
             "command": "gcode_line", "auto_recovery": auto_step_recovery
@@ -1037,7 +1037,24 @@ class PrinterMQTTClient:
         Returns:
             float: chamber temperature
         """
-        return float(self.__get_print("chamber_temper", 0.0))
+        primary = self.__get_print("chamber_temper", None)
+        try:
+            return float(primary)
+        except (TypeError, ValueError):
+            pass  # fall back
+
+        device = self.__get_print("device", {})
+        if isinstance(device, dict):
+            ctc = device.get("ctc", {})
+            if isinstance(ctc, dict):
+                info = ctc.get("info", {})
+                if isinstance(info, dict):
+                    try:
+                        return float(info.get("temp", 0.0))
+                    except (TypeError, ValueError):
+                        pass
+
+        return 0.0
 
     def current_layer_num(self) -> int:
         """
@@ -1210,23 +1227,26 @@ class PrinterMQTTClient:
 
         for k, v in enumerate(ams_units):
             humidity = int(v.get("humidity", 0))
+            humidity_pct = int(v.get("humidity_raw", 0))
             temp = float(v.get("temp", 0.0))
             id = int(v.get("id", k))
 
-            ams = AMS(humidity=humidity, temperature=temp)
+            ams = AMS(humidity=humidity, humidity_pct=humidity_pct, temperature=temp)
 
             trays: list[dict[str, Any]] = v.get("tray", [])
-
-            if trays:
-                for tray_id, tray in enumerate(trays):
-                    tray_id = int(tray.get("id", tray_id))
-                    tray_n: Any | None = tray.get("n", None)
-                    if tray_n:
-                        ams.set_filament_tray(
-                            tray_index=tray_id,
-                            filament_tray=FilamentTray.from_dict(tray))
+            ams.process_trays(trays)
 
             self.ams_hub[id] = ams
+
+    def get_ams_hub(self) -> AMSHub:
+        """
+        Get the AMS hub
+
+        Returns:
+            AMSHub: AMS hub
+        """
+        self.process_ams()
+        return self.ams_hub
 
     def vt_tray(self) -> FilamentTray:
         """
