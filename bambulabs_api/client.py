@@ -60,6 +60,17 @@ class Printer:
         """
         return self.mqtt_client.is_connected()
 
+    def mqtt_client_ready(self):
+        """
+        Get the mqtt client is ready to send commands.
+
+        Returns
+        -------
+        bool
+            Check if the mqtt client is ready.
+        """
+        return self.mqtt_client.ready()
+
     def current_layer_num(self):
         """
         Get current layer number
@@ -348,17 +359,17 @@ class Printer:
 
         Parameters
         ----------
-        filename : str
+        filename: str
             The name of the file to be printed.
-        plate_number : (int | str)
+        plate_number: (int | str)
             The plate number of the file to be printed (assuming the 3mf file
             is created with Bambustudio/Orcaslicer). Or the path as a string.
-        use_ams : bool, optional
+        use_ams: bool, optional
             Whether to use the AMS system, by default True.
-        ams_mapping : list[int], optional
+        ams_mapping: list[int], optional
             The mapping of the filament trays to the plate numbers,
             by default [0].
-        skip_objects (list[int] | None, optional): List of gcode objects to
+        skip_objects: (list[int] | None, optional) List of gcode objects to
             skip. Defaults to None.
 
         Returns
