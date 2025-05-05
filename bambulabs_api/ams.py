@@ -5,6 +5,12 @@ from bambulabs_api.filament_info import FilamentTray
 
 
 class AMSHub:
+    """
+    Represents the Bambulabs AMS (Automated Material System) system hub.
+
+    Returns:
+        AMSHub: AMSHub object containing all AMS objects.
+    """
     def __init__(self) -> None:
         self.ams_hub: dict[int, AMS] = {}
 
@@ -30,8 +36,7 @@ class AMS:
     Represents the Bambulab's AMS (Automated Material System) system.
     """
 
-    def __init__(
-        self, humidity: int, humidity_pct:int, temperature: float, **kwargs: dict[str, Any]) -> None:
+    def __init__(self, humidity: int, humidity_pct: int, temperature: float, **kwargs: dict[str, Any]) -> None:
         self.filament_trays: dict[int, FilamentTray] = {}
 
         self.humidity = humidity
@@ -86,4 +91,3 @@ class AMS:
     def __iter__(self) -> Iterator[FilamentTray]:
         """Iterate over the FilamentTray objects inside this AMS."""
         return iter(self.filament_trays.values())
-
