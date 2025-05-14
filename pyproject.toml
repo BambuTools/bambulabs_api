@@ -20,6 +20,7 @@ classifiers = [
 dependencies = [
   "paho-mqtt>=2.0.0",
   "pillow>=11.0.0",
+  "opencv-python>=4.10.0",
 ]
 
 [project.urls]
@@ -31,3 +32,4 @@ Issues = "https://github.com/BambuTools/bambulabs_api/issues"
 python = "^3.10"
 paho-mqtt = "^2.0.0"
 pillow = "^11.0.0"
+opencv-python = "^4.10.0"
