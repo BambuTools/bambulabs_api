@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
 ## Known Limitations
 
-* X1 Printers are not fully supported yet - camera integration is not yet implemented (for api versions < 2.7.0 please see the [No Camera Example](/examples/Basic/basic_no_camera.py)).
+* X1 Printers are not fully supported yet - camera integration is not yet implemented (for api versions < 2.7.0 please see the [No Camera Example](https://github.com/BambuTools/bambulabs_api/blob/main/examples/Basic/basic_no_camera.py)).
 * H2D printers have not been tested yet.
 
 
@@ -147,7 +147,7 @@ Please make sure your code follows PEP 8 guidelines and that you run tests befor
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/BambuTools/bambulabs_api/blob/main/LICENSE) file for more details.
 
 ## Support
 
