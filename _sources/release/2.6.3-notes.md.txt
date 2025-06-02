@@ -1,0 +1,6 @@
+Bambulabs API 2.6.3 Release Notes
+=================================
+
+* Update mqtt chamber temperature [@BuSHari](https://github.com/BuSHari)
+* Add additional filament info [@BuSHari](https://github.com/BuSHari)
+* Miscellaneous documentation fixes
