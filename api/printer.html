@@ -76,6 +76,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.load_filament_spool"><code class="docutils literal notranslate"><span class="pre">load_filament_spool()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.move_z_axis"><code class="docutils literal notranslate"><span class="pre">move_z_axis()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.mqtt_client_connected"><code class="docutils literal notranslate"><span class="pre">mqtt_client_connected()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.mqtt_client_ready"><code class="docutils literal notranslate"><span class="pre">mqtt_client_ready()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.mqtt_dump"><code class="docutils literal notranslate"><span class="pre">mqtt_dump()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.mqtt_start"><code class="docutils literal notranslate"><span class="pre">mqtt_start()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.mqtt_stop"><code class="docutils literal notranslate"><span class="pre">mqtt_stop()</span></code></a></li>
@@ -544,6 +545,20 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.mqtt_client_ready">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">mqtt_client_ready</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.Printer.mqtt_client_ready" title="Link to this definition"></a></dt>
+<dd><p>Get the mqtt client is ready to send commands.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Check if the mqtt client is ready.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.Printer.mqtt_dump">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">mqtt_dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bambulabs_api.Printer.mqtt_dump" title="Link to this definition"></a></dt>
 <dd><p>Get the mqtt dump of the messages recorded from the printer</p>
@@ -852,8 +867,7 @@ is created with Bambustudio/Orcaslicer). Or the path as a string.</p></li>
 <li><p><strong>use_ams</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to use the AMS system, by default True.</p></li>
 <li><p><strong>ams_mapping</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – The mapping of the filament trays to the plate numbers,
 by default [0].</p></li>
-<li><p><strong>None</strong> (<em>skip_objects</em><em> (</em><em>list</em><em>[</em><em>int</em><em>] </em><em>|</em>) – skip. Defaults to None.</p></li>
-<li><p><strong>optional</strong><strong>)</strong> (<em>List</em><em> of </em><em>gcode objects to</em>) – skip. Defaults to None.</p></li>
+<li><p><strong>skip_objects</strong> (<em>(</em><em>list</em><em>[</em><em>int</em><em>] </em><em>| </em><em>None</em><em>, </em><em>optional</em><em>) </em><em>List</em><em> of </em><em>gcode objects to</em>) – skip. Defaults to None.</p></li>
 <li><p><strong>flow_calibration</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to use the automatic flow calibrationn, by default True.</p></li>
 </ul>
 </dd>
