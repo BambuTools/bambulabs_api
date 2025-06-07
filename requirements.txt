@@ -6,3 +6,4 @@ sphinx_rtd_theme
 paho_mqtt
 webcolors
 pillow
+opencv-python
