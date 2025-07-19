@@ -2,7 +2,10 @@ __all__ = ["PrinterFTPClient"]
 
 
 import ftplib
+import functools
 from io import BytesIO
+import os
+from socket import socket
 import ssl
 from PIL import Image
 
@@ -31,6 +34,16 @@ class ImplicitFTP_TLS(ftplib.FTP_TLS):
             value = self.context.wrap_socket(value)
         self._sock = value
 
+    def ntransfercmd(self, cmd: str, rest: int | str | None = None) -> tuple[socket, int | None]:
+        conn, size = ftplib.FTP.ntransfercmd(self, cmd, rest)
+
+        if self._prot_p: # type: ignore
+            assert self.sock is not None
+            conn = self.context.wrap_socket(
+                conn, server_hostname=self.host, session=self.sock.session
+            )  # this is the fix
+        return conn, size
+
     def storbinary(self, cmd, fp, blocksize=8192, callback=None, rest=None):
         self.voidcmd('TYPE I')
         conn = self.transfercmd(cmd, rest)
@@ -51,13 +64,31 @@ class ImplicitFTP_TLS(ftplib.FTP_TLS):
         return self.voidresp()
 
 
+@functools.lru_cache(maxsize=1)
+def create_local_ssl_context():
+    """
+    This context validates the certificate for TLS connections to local printers.
+    """
+    script_path = os.path.abspath(__file__)
+    directory_path = os.path.dirname(script_path)
+    certfile = directory_path + "/bambu.cert"
+    context = ssl.create_default_context(cafile=certfile)
+    # Ignore "CA cert does not include key usage extension" error since python 3.13
+    # See note in https://docs.python.org/3/library/ssl.html#ssl.create_default_context
+    context.verify_flags &= ~ssl.VERIFY_X509_STRICT
+    # Workaround because some users get this error despite SNI: "certificate verify failed: IP address mismatch"
+    context.check_hostname = False
+    return context
+
+
 class PrinterFTPClient:
     def __init__(self,
                  server_ip: str,
                  access_code: str,
                  user: str = 'bblp',
                  port: int = 990) -> None:
-        self.ftps = ImplicitFTP_TLS()
+        self._context = create_local_ssl_context()
+        self.ftps = ImplicitFTP_TLS(self._context)
 
         self.server_ip = server_ip
         self.port = port
@@ -73,7 +104,7 @@ class PrinterFTPClient:
             func (function): the function to be decorated
         """  # noqa
 
-        def wrapper(self, *args, **kwargs) -> Any:
+        def wrapper(self: 'PrinterFTPClient', *args, **kwargs) -> Any:
             logging.info("Connecting to FTP server...")
             self.ftps.connect(host=self.server_ip, port=self.port)
             self.ftps.login(self.user, self.access_code)
