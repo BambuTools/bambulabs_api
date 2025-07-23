@@ -26,7 +26,7 @@ To install the package, use `pip`:
 pip install bambulabs_api
 ```
 
-Make sure you have Python 3.6 or higher installed.
+Make sure you have Python 3.10 or higher installed.
 
 ## Features
 
