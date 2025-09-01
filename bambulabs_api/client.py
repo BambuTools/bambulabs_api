@@ -780,3 +780,13 @@ class Printer:
             str: Wifi signal
         """
         return self.mqtt_client.wifi_signal()
+
+    def reboot(self) -> bool:
+        """
+        Reboot printer. Warning: this will reboot printer and may require
+        manual reconnecting.
+
+        Returns:
+            bool: if printer has been rebooted correctly
+        """
+        return self.mqtt_client.reboot()

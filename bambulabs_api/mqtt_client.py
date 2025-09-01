@@ -1299,3 +1299,20 @@ class PrinterMQTTClient:
             str: Wifi signal
         """
         return self.__get_print("wifi_signal", "")
+
+    def reboot(self) -> bool:
+        """
+        Reboot printer. Warning: this will reboot printer and may require
+        manual reconnecting.
+
+        Returns:
+            bool: if printer has been rebooted correctly
+        """
+        logging.warning("Sending reboot command!")
+        return self.__publish_command(
+            {
+                "system": {
+                    "command": "reboot"
+                }
+            }
+        )
