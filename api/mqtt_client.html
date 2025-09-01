@@ -90,6 +90,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.print_type"><code class="docutils literal notranslate"><span class="pre">print_type()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.process_ams"><code class="docutils literal notranslate"><span class="pre">process_ams()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.pushall"><code class="docutils literal notranslate"><span class="pre">pushall()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.reboot"><code class="docutils literal notranslate"><span class="pre">reboot()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.request_access_code"><code class="docutils literal notranslate"><span class="pre">request_access_code()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.request_firmware_history"><code class="docutils literal notranslate"><span class="pre">request_firmware_history()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.resume_filament_action"><code class="docutils literal notranslate"><span class="pre">resume_filament_action()</span></code></a></li>
@@ -718,6 +719,21 @@ can result in the printer lagging.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>success state of the pushall command</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.reboot">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">reboot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.reboot" title="Link to this definition"></a></dt>
+<dd><p>Reboot printer. Warning: this will reboot printer and may require
+manual reconnecting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>if printer has been rebooted correctly</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>

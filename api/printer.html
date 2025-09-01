@@ -85,6 +85,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.pause_print"><code class="docutils literal notranslate"><span class="pre">pause_print()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.print_error_code"><code class="docutils literal notranslate"><span class="pre">print_error_code()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.print_type"><code class="docutils literal notranslate"><span class="pre">print_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.reboot"><code class="docutils literal notranslate"><span class="pre">reboot()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.resume_print"><code class="docutils literal notranslate"><span class="pre">resume_print()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.retry_filament_action"><code class="docutils literal notranslate"><span class="pre">retry_filament_action()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.set_auto_step_recovery"><code class="docutils literal notranslate"><span class="pre">set_auto_step_recovery()</span></code></a></li>
@@ -658,6 +659,21 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.reboot">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">reboot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.reboot" title="Link to this definition"></a></dt>
+<dd><p>Reboot printer. Warning: this will reboot printer and may require
+manual reconnecting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>if printer has been rebooted correctly</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
