@@ -113,6 +113,12 @@ If you want to contribute to the development of this API or run it in a developm
    conda env create -f environment.yml
    ```
 
+   Note: Apple M chip workaround
+   The binary for myst_parser is not available for M1 devices yet, as a workaround
+   - Delete myst_parser from environment.yml
+   - run `conda env create -f environment.yml`
+   - Execute step 4 then run `pip install myst_parser`
+
 4. Activate the environment:
 
    ```bash
