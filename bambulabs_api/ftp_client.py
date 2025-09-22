@@ -19,6 +19,15 @@ class ImplicitFTP_TLS(ftplib.FTP_TLS):
         super().__init__(*args, **kwargs)
         self._sock = None
 
+    """Explicit FTPS, with shared TLS session"""
+    def ntransfercmd(self, cmd, rest=None):
+        conn, size = ftplib.FTP.ntransfercmd(self, cmd, rest)
+        if self._prot_p:
+            conn = self.context.wrap_socket(conn,
+                                            server_hostname=self.host,
+                                            session=self.sock.session)
+        return conn, size
+
     @property
     def sock(self):
         """Return the socket."""
