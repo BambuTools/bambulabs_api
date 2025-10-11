@@ -6,10 +6,11 @@ from io import BytesIO
 import ssl
 from PIL import Image
 
-import logging
 from typing import Any, BinaryIO
 
 from PIL.ImageFile import ImageFile
+
+from bambulabs_api.logger import logger
 
 
 class ImplicitFTP_TLS(ftplib.FTP_TLS):
@@ -82,26 +83,26 @@ class PrinterFTPClient:
             func (function): the function to be decorated
         """  # noqa
 
-        def wrapper(self, *args, **kwargs) -> Any:
-            logging.info("Connecting to FTP server...")
+        def wrapper(self: 'PrinterFTPClient', *args, **kwargs) -> Any:
+            logger.info("Connecting to FTP server...")
             self.ftps.connect(host=self.server_ip, port=self.port)
             self.ftps.login(self.user, self.access_code)
-            logging.info("Connected to FTP server")
-            logging.info(self.ftps.prot_p())
+            logger.info("Connected to FTP server")
+            logger.info(self.ftps.prot_p())
 
             try:
                 return func(self, *args, **kwargs)  # type: ignore
             except Exception as e:                                  # noqa  # pylint: disable=broad-exception-caught
-                logging.error(f"Failed to execute function: {e}")   # noqa  # pylint: disable=logging-fstring-interpolation
+                logger.error(f"Failed to execute function: {e}")   # noqa  # pylint: disable=logging-fstring-interpolation
             finally:
                 self.ftps.close()
-                logging.info("Connection to FTP server closed")
+                logger.info("Connection to FTP server closed")
         return wrapper
 
     @connect_and_run
     def upload_file(self, file: BinaryIO, file_path: str) -> str:
         return self.ftps.storbinary(f'STOR {file_path}', file, blocksize=32768,
-                                 callback=lambda x: logging.debug(f"Uploaded {x} bytes"))   # noqa  # pylint: disable=logging-fstring-interpolation
+                                 callback=lambda x: logger.debug(f"Uploaded {x} bytes"))   # noqa  # pylint: disable=logging-fstring-interpolation
 
     @connect_and_run
     def list_directory(self, path: str | None = None) -> tuple[str, list[str]]:
@@ -199,7 +200,7 @@ class PrinterFTPClient:
 
     @connect_and_run
     def delete_file(self, file_path: str) -> str:
-        logging.info(f"Deleting file: {file_path}")     # noqa  # pylint: disable=logging-fstring-interpolation
+        logger.info(f"Deleting file: {file_path}")     # noqa  # pylint: disable=logging-fstring-interpolation
         return self.ftps.delete(file_path)
 
     def close(self) -> None:

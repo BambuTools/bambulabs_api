@@ -4,10 +4,11 @@ import base64
 import struct
 import socket
 import ssl
-import logging
 
 from threading import Thread
 import time
+
+from bambulabs_api.logger import logger
 
 __all__ = ["PrinterCamera"]
 
@@ -62,7 +63,7 @@ class PrinterCamera:
         return encoded_image
 
     def retriever(self):
-        print("Starting camera thread.")
+        logger.info("Starting camera thread.")
 
         auth_data = bytearray()
         connect_attempts = 0
@@ -97,7 +98,7 @@ class PrinterCamera:
                         connect_attempts += 1
                         sslSock = ctx.wrap_socket(sock,
                                                   server_hostname=self.__hostname)      # noqa
-                        logging.info("Attempting to connect...")
+                        logger.info("Attempting to connect...")
                         sslSock.write(auth_data)
                         img = None
                         payload_size = 0
@@ -105,9 +106,9 @@ class PrinterCamera:
                         status = sslSock.getsockopt(socket.SOL_SOCKET,
                                                     socket.SO_ERROR)
                         if status != 0:
-                            logging.warning(f"Socket error: {status}")  # noqa  # pylint: disable=logging-fstring-interpolation
+                            logger.warning(f"Socket error: {status}")  # noqa  # pylint: disable=logging-fstring-interpolation
                     except socket.error as e:  # noqa
-                        logging.warning(f"Error in socket: {e}")        # noqa  # pylint: disable=logging-fstring-interpolation
+                        logger.warning(f"Error in socket: {e}")        # noqa  # pylint: disable=logging-fstring-interpolation
                         continue
 
                     sslSock.setblocking(False)
@@ -115,7 +116,7 @@ class PrinterCamera:
 
                     while self.alive:
                         try:
-                            logging.debug("Reading chunk...")
+                            logger.debug("Reading chunk...")
                             dr = sslSock.recv(read_chunk_size)
 
                         except ssl.SSLWantReadError:
@@ -123,14 +124,14 @@ class PrinterCamera:
                             continue
 
                         except Exception as e:  # noqa  # pylint: disable=broad-exception-caught
-                            logging.error(f"Exception. Type: {type(e)} Args: {e}")  # noqa  # pylint: disable=logging-fstring-interpolation
+                            logger.error(f"Exception. Type: {type(e)} Args: {e}")  # noqa  # pylint: disable=logging-fstring-interpolation
                             time.sleep(1)
                             break
 
-                        logging.debug(f"Read chunk {len(dr)}")          # noqa  # pylint: disable=logging-fstring-interpolation
+                        logger.debug(f"Read chunk {len(dr)}")          # noqa  # pylint: disable=logging-fstring-interpolation
 
                         if img is not None and len(dr) > 0:
-                            logging.debug("Appending to Image")
+                            logger.debug("Appending to Image")
                             img += dr
                             if len(img) > payload_size:
                                 img = None
@@ -144,7 +145,7 @@ class PrinterCamera:
                                 img = None
 
                         elif len(dr) == 16:
-                            logging.debug("Got header")
+                            logger.debug("Got header")
                             connect_attempts = 0
                             img = bytearray()
                             payload_size = int.from_bytes(dr[0:3],
@@ -152,18 +153,18 @@ class PrinterCamera:
 
                         elif len(dr) == 0:
                             time.sleep(5)
-                            logging.error("Wrong access code or IP")
+                            logger.error("Wrong access code or IP")
                             break
 
                         else:
-                            logging.error("something bad happened")
+                            logger.error("something bad happened")
                             time.sleep(1)
                             break
 
             except Exception as e:  # noqa  # pylint: disable=broad-exception-caught
-                logging.error(f"Error occurred: {e}")           # noqa  # pylint: disable=logging-fstring-interpolation
+                logger.error(f"Error occurred: {e}")           # noqa  # pylint: disable=logging-fstring-interpolation
                 continue
             finally:
                 time.sleep(5)
-                logging.info("Reconnecting...")
+                logger.info("Reconnecting...")
                 continue
