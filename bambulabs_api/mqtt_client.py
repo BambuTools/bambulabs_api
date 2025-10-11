@@ -1,7 +1,7 @@
 __all__ = ["PrinterMQTTClient"]
 
 import json
-import logging
+from bambulabs_api.logger import logger
 import ssl
 import datetime
 from typing import Any, Callable, Union
@@ -125,7 +125,7 @@ class PrinterMQTTClient:
         self._last_update: int = 0
 
         self.command_topic = f"device/{printer_serial}/request"
-        logging.info(f"{self.command_topic}")   # noqa: E501  # pylint: disable=logging-fstring-interpolation
+        logger.info(f"{self.command_topic}")   # noqa: E501  # pylint: disable=logging-fstring-interpolation
         self._data: dict[Any, Any] = {}
 
         self.ams_hub: AMSHub = AMSHub()
@@ -154,7 +154,7 @@ class PrinterMQTTClient:
                 *args: list[Any],
                 **kwargs: dict[str, Any]) -> Any:
             if not self.ready():
-                logging.error("Printer Values Not Available Yet")
+                logger.error("Printer Values Not Available Yet")
 
                 if self.strict:
                     raise Exception("Printer not found")
@@ -172,8 +172,8 @@ class PrinterMQTTClient:
         reason_code: paho.mqtt.reasoncodes.ReasonCode,
         properties: Union[paho.mqtt.properties.Properties, None],
     ) -> None:
-        logging.info(f"Client Disconnected: {client} {userdata} "
-                     f"{disconnect_flags} {reason_code} {properties}")
+        logger.info(f"Client Disconnected: {client} {userdata} "
+                    f"{disconnect_flags} {reason_code} {properties}")
         self.on_disconnect_handler(
             self,
             client,
@@ -199,7 +199,7 @@ class PrinterMQTTClient:
             if k not in self._data:
                 self._data[k] = {}
             self._data[k] |= v
-        logging.debug(self._data)
+        logger.debug(self._data)
 
         firmware_version = self.firmware_version()
         if firmware_version is not None:
@@ -228,9 +228,9 @@ class PrinterMQTTClient:
         rc : int
             The connection result
         """
-        logging.info(f"Connection result code: {rc}")
+        logger.info(f"Connection result code: {rc}")
         if rc == 0 or not rc.is_failure:
-            logging.info("Connected successfully")
+            logger.info("Connected successfully")
             client.subscribe(f"device/{self._printer_serial}/report")
             if self.pushall_aggressive:
                 self._client.publish(
@@ -240,9 +240,9 @@ class PrinterMQTTClient:
                             "info": {"command": "get_version"},
                             "upgrade": {"command": "get_history"},
                         }))
-            logging.info("Connection Handshake Completed")
+            logger.info("Connection Handshake Completed")
         else:
-            logging.warning(f"Connection failed with result code {rc}")
+            logger.warning(f"Connection failed with result code {rc}")
 
         self.on_connect_handler(
             self,
@@ -429,11 +429,11 @@ class PrinterMQTTClient:
             payload (dict[Any, Any]): command to send to the printer
         """
         if self._client.is_connected() is False:
-            logging.error("Not connected to the MQTT server")
+            logger.error("Not connected to the MQTT server")
             return False
 
         command = self._client.publish(self.command_topic, json.dumps(payload))
-        logging.debug(f"Published command: {payload}")
+        logger.debug(f"Published command: {payload}")
         command.wait_for_publish()
         return command.is_published()
 
@@ -659,7 +659,7 @@ class PrinterMQTTClient:
             return self.__send_gcode_line(f"M140 S{temperature}\n")
         else:
             if temperature < 40 and not override:
-                logging.warning(
+                logger.warning(
                     "Attempting to set low bed temperature not recommended. "
                     "Set override flag to true to if you're sure you want to "
                     f"run M190 S{temperature};"
@@ -809,7 +809,7 @@ class PrinterMQTTClient:
         if code is None:
             return self._access
         elif code != self._access:
-            logging.error(
+            logger.error(
                 f"Unexpected state: our access code is {self._access}; "
                 f"reported is {code}")
             return code
@@ -869,7 +869,7 @@ class PrinterMQTTClient:
             return self.__send_gcode_line(f"M104 S{temperature}\n")
         else:
             if temperature < 60 and not override:
-                logging.warning(
+                logger.warning(
                     "Attempting to set low bed temperature not recommended. "
                     "Set override flag to true to if you're sure you want to "
                     f"run M109 S{temperature};"
@@ -1161,7 +1161,7 @@ class PrinterMQTTClient:
         new_firmware = self.new_printer_firmware()
         if new_firmware is not None:
             if new_firmware >= "1.08" and not override:
-                logging.warning(
+                logger.warning(
                     f"You are about to upgrade to {new_firmware}."
                     "Firmware above 1.08 may result in api incompatibility"
                 )
@@ -1189,7 +1189,7 @@ class PrinterMQTTClient:
         """
         firmware_history = self.get_firmware_history()
         if not firmware_history:
-            logging.warning("Firmware history not up to date")
+            logger.warning("Firmware history not up to date")
             return False
         firmware = next(
             (firmware["firmware"] for firmware in firmware_history
@@ -1197,7 +1197,7 @@ class PrinterMQTTClient:
                  "version", None) == firmware_version), None)
 
         if firmware is None:
-            logging.warning(
+            logger.warning(
                 f"Firmware {firmware_version} not found in listed firmware")
             return False
 
@@ -1308,7 +1308,7 @@ class PrinterMQTTClient:
         Returns:
             bool: if printer has been rebooted correctly
         """
-        logging.warning("Sending reboot command!")
+        logger.warning("Sending reboot command!")
         return self.__publish_command(
             {
                 "system": {
