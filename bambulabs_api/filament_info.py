@@ -158,8 +158,7 @@ class FilamentTray:
     Attributes
     ----------
 
-    k: The k value.
-    n: The n value.
+    id: The ID of the tray.
     tag_uid: The tag UID.
     tray_id_name: The tray ID name.
     tray_info_idx: The tray info index.
@@ -168,8 +167,8 @@ class FilamentTray:
     tray_color: The filament color of the tray.
     tray_weight: The tray weight.
     tray_diameter: The tray diameter.
-    tray_temp: The tray temperature.
-    tray_time: The tray time.
+    drying_temp: The tray temperature.
+    drying_time: The tray time.
     bed_temp_type: The bed temperature type.
     bed_temp: The bed temperature.
     nozzle_temp_max: The maximum nozzle temperature for the filament.
@@ -177,8 +176,7 @@ class FilamentTray:
     xcam_info: The XCam information.
     tray_uuid: The tray UUID.
     """
-    k: float
-    n: int
+    id: int
     tag_uid: str
     tray_id_name: str
     tray_info_idx: str
@@ -187,8 +185,8 @@ class FilamentTray:
     tray_color: str
     tray_weight: str
     tray_diameter: str
-    tray_temp: str
-    tray_time: str
+    drying_temp: str
+    drying_time: str
     bed_temp_type: str
     bed_temp: str
     nozzle_temp_max: int
