@@ -26,9 +26,7 @@ class PrinterCamera:
         self.__hostname = str(hostname)
         self.__port = port
 
-        self.__thread = Thread(target=self.retriever)
-        self.__thread.daemon = True
-
+        self.__thread = None
         self.last_frame = None
         self.alive = False
 
@@ -44,6 +42,8 @@ class PrinterCamera:
         """
         if not self.alive:
             self.alive = True
+            self.__thread = Thread(target=self.retriever)
+            self.__thread.daemon = True
             self.__thread.start()
             return True
         else:
@@ -54,7 +54,9 @@ class PrinterCamera:
         Stop the camera client
         """
         self.alive = False
-        self.__thread.join()
+        if self.__thread is not None:
+            self.__thread.join()
+            self.__thread = None
 
     def get_frame(self):
         if self.last_frame is None:
