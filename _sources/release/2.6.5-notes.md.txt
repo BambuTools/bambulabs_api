@@ -1,0 +1,5 @@
+Bambulabs API 2.6.5 Release Notes
+=================================
+
+* Improved Logging - add global logger
+* Fix camera reconnect [@x746e](https://github.com/x746e)
