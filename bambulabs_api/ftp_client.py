@@ -45,7 +45,7 @@ class ImplicitFTP_TLS(ftplib.FTP_TLS):
         self.voidcmd('TYPE I')
         conn = self.transfercmd(cmd, rest)
         try:
-            while 1:
+            while True:
                 buf = fp.read(blocksize)
                 if not buf:
                     break
@@ -54,7 +54,7 @@ class ImplicitFTP_TLS(ftplib.FTP_TLS):
                     callback(buf)
             # shutdown ssl layer
             if isinstance(conn, ssl.SSLSocket):
-                # conn.unwrap()  # Fix for storbinary waiting indefinitely for response message from server  # noqa
+                conn.unwrap()  # Fix for storbinary waiting indefinitely for response message from server  # noqa
                 pass
         finally:
             conn.close()  # This is the addition to the previous comment.
