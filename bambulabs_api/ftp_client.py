@@ -16,9 +16,10 @@ from bambulabs_api.logger import logger
 class ImplicitFTP_TLS(ftplib.FTP_TLS):
     """FTP_TLS subclass that automatically wraps sockets in SSL to support implicit FTPS."""  # noqa
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, unwrap: bool = False, **kwargs):
         super().__init__(*args, **kwargs)
         self._sock = None
+        self.unwrap = unwrap
 
     """Explicit FTPS, with shared TLS session"""
     def ntransfercmd(self, cmd, rest=None):
@@ -53,7 +54,7 @@ class ImplicitFTP_TLS(ftplib.FTP_TLS):
                 if callback:
                     callback(buf)
             # shutdown ssl layer
-            if isinstance(conn, ssl.SSLSocket):
+            if isinstance(conn, ssl.SSLSocket) and self.unwrap:
                 conn.unwrap()  # Fix for storbinary waiting indefinitely for response message from server  # noqa
                 pass
         finally:
