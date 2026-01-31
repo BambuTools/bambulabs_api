@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bambulabs_api"
-version = "2.6.5"
+version = "2.6.6"
 authors = [
   { name="Chris Ioannidis", email="chris.ioannidis23@imperial.ac.uk" },
   { name="Haotian Wu", email="64962148+ohmdelta@users.noreply.github.com"}
