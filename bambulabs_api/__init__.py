@@ -5,6 +5,8 @@ try:
 except Exception:
     __version__ = "0.dev0+unknown"
 
+from bambulabs_api import client, mqtt_client, ftp_client, ams
+
 # flake8: noqa: F405
 from .client import *  # noqa
 from .filament_info import Filament, AMSFilamentSettings, FilamentTray  # noqa
