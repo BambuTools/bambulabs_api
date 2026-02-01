@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import cv2
+
 import base64
 import struct
 import socket
@@ -170,3 +172,25 @@ class PrinterCamera:
                 time.sleep(5)
                 logger.info("Reconnecting...")
                 continue
+
+
+class RTSPSCamera:
+    """Camera Client for X1"""
+    def __init__(
+        self,
+        hostname: str,
+        access_code: str,
+        port: int = 322,
+        username: str = 'bblp'
+    ) -> None:
+        self.rtsps_uri = f"rtsps://{username}:{access_code}@{hostname}:{port}/streaming/live/1"  # noqa: E501
+
+    def start(self):
+        self.cap = cv2.VideoCapture(self.rtsps_uri)
+
+    def get_frame(self):
+        _, frame = self.cap.read()
+        return frame
+
+    def stop(self):
+        self.cap.release()
