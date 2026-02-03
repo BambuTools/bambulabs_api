@@ -12,5 +12,6 @@ including the status of the printer and the status of the print job.
 
   self
   Examples <examples>
+  Compatibility <compatibility>
   API <api>
   Release Notes <release>
