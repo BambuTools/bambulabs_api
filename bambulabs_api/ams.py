@@ -1,10 +1,16 @@
 __all__ = ["AMS", "AMSHub"]
 
-from typing import Any
+from typing import Any, Iterator
 from bambulabs_api.filament_info import FilamentTray
 
 
 class AMSHub:
+    """
+    Represents the Bambulabs AMS (Automated Material System) system hub.
+
+    Returns:
+        AMSHub: AMSHub object containing all AMS objects.
+    """
     def __init__(self) -> None:
         self.ams_hub: dict[int, AMS] = {}
 
@@ -21,18 +27,20 @@ class AMSHub:
     def __setitem__(self, ind: int, item: "AMS"):
         self.ams_hub[ind] = item
 
+    def __iter__(self) -> Iterator["AMS"]:
+        return iter(self.ams_hub.values())
+
 
 class AMS:
     """
     Represents the Bambulab's AMS (Automated Material System) system.
     """
 
-    def __init__(
-        self, humidity: int, temperature: float, **kwargs: dict[str, Any]
-    ) -> None:
+    def __init__(self, humidity: int, humidity_pct: int, temperature: float, **kwargs: dict[str, Any]) -> None:
         self.filament_trays: dict[int, FilamentTray] = {}
 
         self.humidity = humidity
+        self.humidity_pct = humidity_pct
         self.temperature = temperature
 
         if "tray" in kwargs:
@@ -41,7 +49,7 @@ class AMS:
     def process_trays(self, trays: list[dict[str, Any]]):
         for t in trays:
             id = t.get("id")
-            tray_n: Any | None = t.get("n", None)
+            tray_n: Any | None = t.get("tray_info_idx", None)
             if id and tray_n is not None:
                 id = int(id)
                 self.filament_trays[id] = FilamentTray.from_dict(t)
@@ -79,3 +87,7 @@ class AMS:
 
     def __setitem__(self, index: int, filament_tray: FilamentTray):
         self.filament_trays[index] = filament_tray
+
+    def __iter__(self) -> Iterator[FilamentTray]:
+        """Iterate over the FilamentTray objects inside this AMS."""
+        return iter(self.filament_trays.values())
